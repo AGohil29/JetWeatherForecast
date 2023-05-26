@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.goldmedal.jetweatherforecast.navigation.WeatherNavigation
 import com.goldmedal.jetweatherforecast.ui.theme.JetWeatherForecastTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,13 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetWeatherForecastTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                WeatherNavigation()
             }
         }
     }
