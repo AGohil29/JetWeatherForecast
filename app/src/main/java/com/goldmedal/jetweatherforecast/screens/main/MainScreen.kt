@@ -1,4 +1,4 @@
-package com.goldmedal.jetweatherforecast.screens
+package com.goldmedal.jetweatherforecast.screens.main
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

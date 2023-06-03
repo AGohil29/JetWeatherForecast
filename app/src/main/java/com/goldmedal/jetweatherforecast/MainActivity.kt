@@ -17,8 +17,6 @@ import com.goldmedal.jetweatherforecast.navigation.WeatherNavigation
 import com.goldmedal.jetweatherforecast.ui.theme.JetWeatherForecastTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-const val API_KEY = "ed60fcfbd110ee65c7150605ea8aceea"
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

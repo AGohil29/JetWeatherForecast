@@ -1,4 +1,4 @@
-package com.goldmedal.jetweatherforecast.screens
+package com.goldmedal.jetweatherforecast.screens.splash
 
 
 import android.view.animation.OvershootInterpolator
