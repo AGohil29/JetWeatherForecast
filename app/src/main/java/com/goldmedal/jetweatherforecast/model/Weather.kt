@@ -1,6 +1,6 @@
 package com.goldmedal.jetweatherforecast.model
 
-data class DailyData(
+data class Weather(
     val city: City,
     val cnt: Int,
     val cod: String,

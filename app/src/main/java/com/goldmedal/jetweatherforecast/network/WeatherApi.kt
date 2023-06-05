@@ -1,6 +1,6 @@
 package com.goldmedal.jetweatherforecast.network
 
-import com.goldmedal.jetweatherforecast.model.WeatherItem
+import com.goldmedal.jetweatherforecast.model.Weather
 import com.goldmedal.jetweatherforecast.utils.Constants
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,5 +13,5 @@ interface WeatherApi {
         @Query("q") query: String,
         @Query("appid") appId: String = Constants.API_KEY,
         @Query("units") units: String = "imperial"
-    ): WeatherItem
+    ): Weather
 }
