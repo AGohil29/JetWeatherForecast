@@ -14,5 +14,5 @@ data class WeatherItem (
     val sunrise: Int,
     val sunset: Int,
     val temp: Temp,
-    val weatherObject: List<WeatherObject>
+    val weather: List<WeatherObject>
 )
