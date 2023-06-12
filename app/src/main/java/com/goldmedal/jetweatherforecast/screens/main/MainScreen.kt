@@ -11,9 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -22,6 +24,7 @@ import com.goldmedal.jetweatherforecast.data.DataOrException
 import com.goldmedal.jetweatherforecast.model.Weather
 import com.goldmedal.jetweatherforecast.model.WeatherItem
 import com.goldmedal.jetweatherforecast.utils.formatDate
+import com.goldmedal.jetweatherforecast.utils.formatDateTime
 import com.goldmedal.jetweatherforecast.utils.formatDecimals
 
 @Composable
@@ -99,6 +102,11 @@ fun MainContent(weather: Weather, paddingValues: PaddingValues) {
 
         HumidityWindPressureRow(weatherItem)
         Divider()
+        SunriseSunsetRow(weatherItem)
+        Text(text = "This Week", style = TextStyle(
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        ))
     }
 }
 
@@ -144,6 +152,41 @@ fun HumidityWindPressureRow(weather: WeatherItem) {
             Text(
                 text = "${weather.speed} mph",
                 style = MaterialTheme.typography.caption
+            )
+        }
+    }
+}
+
+@Composable
+fun SunriseSunsetRow(weather: WeatherItem) {
+    Row(
+        modifier = Modifier
+            .padding(12.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(modifier = Modifier.padding(4.dp)) {
+            Icon(
+                painter = painterResource(id = R.drawable.sunrise),
+                contentDescription = "sunrise icon",
+                modifier = Modifier.size(25.dp)
+            )
+            Text(
+                text = formatDateTime(weather.sunrise),
+                style = MaterialTheme.typography.caption
+            )
+        }
+
+        Row(modifier = Modifier.padding(4.dp)) {
+            Text(
+                text = formatDateTime(weather.sunset),
+                style = MaterialTheme.typography.caption
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.sunset),
+                contentDescription = "sunset icon",
+                modifier = Modifier.size(25.dp)
             )
         }
     }
