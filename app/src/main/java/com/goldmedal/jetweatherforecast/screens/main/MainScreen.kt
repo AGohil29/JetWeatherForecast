@@ -5,8 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
@@ -18,16 +16,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.goldmedal.jetweatherforecast.data.DataOrException
 import com.goldmedal.jetweatherforecast.model.Weather
+import com.goldmedal.jetweatherforecast.utils.formatDate
+import com.goldmedal.jetweatherforecast.utils.formatDecimals
 
 @Composable
 fun MainScreen(navController: NavController, mainViewModel: MainViewModel = hiltViewModel()) {
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
-        value = mainViewModel.getWeatherData(city = "Mumbai")
+        value = mainViewModel.getWeatherData(city = "Navi Mumbai")
     }.value
 
     if (weatherData.loading == true) {
@@ -56,7 +55,8 @@ fun MainScaffold(weather: Weather, navController: NavController) {
 
 @Composable
 fun MainContent(weather: Weather, paddingValues: PaddingValues) {
-    val imageUrl = "https://openweathermap.org/img/wn/${weather.list[0].weather[0].icon}.png"
+    val weatherItem = weather.list[0]
+    val imageUrl = "https://openweathermap.org/img/wn/${weatherItem.weather[0].icon}.png"
 
     Column(
         Modifier
@@ -66,7 +66,7 @@ fun MainContent(weather: Weather, paddingValues: PaddingValues) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Jun 10",
+            text = formatDate(weatherItem.dt),
             style = MaterialTheme.typography.caption,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.SemiBold,
@@ -86,10 +86,10 @@ fun MainContent(weather: Weather, paddingValues: PaddingValues) {
             ) {
                 WeatherStateImage(imageUrl)
                 Text(
-                    text = "56", style = MaterialTheme.typography.h4,
+                    text = formatDecimals(weatherItem.temp.day) + " °", style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.ExtraBold
                 )
-                Text(text = "Snow", fontStyle = FontStyle.Italic)
+                Text(text = weatherItem.weather[0].main, fontStyle = FontStyle.Italic)
             }
         }
     }
