@@ -3,7 +3,11 @@ package com.goldmedal.jetweatherforecast.screens.main
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
@@ -11,11 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -32,7 +37,7 @@ fun MainScreen(navController: NavController, mainViewModel: MainViewModel = hilt
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)
     ) {
-        value = mainViewModel.getWeatherData(city = "Navi Mumbai")
+        value = mainViewModel.getWeatherData(city = "Seattle")
     }.value
 
     if (weatherData.loading == true) {
@@ -103,10 +108,26 @@ fun MainContent(weather: Weather, paddingValues: PaddingValues) {
         HumidityWindPressureRow(weatherItem)
         Divider()
         SunriseSunsetRow(weatherItem)
-        Text(text = "This Week", style = TextStyle(
-            fontSize = 18.sp,
+        Text(
+            text = "This Week",
+            style = MaterialTheme.typography.subtitle1,
             fontWeight = FontWeight.Bold
-        ))
+        )
+
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            color = Color(0xFFEEF1EF),
+            shape = RoundedCornerShape(size = 14.dp)
+        ) {
+            LazyColumn(modifier = Modifier.padding(2.dp),
+                contentPadding = PaddingValues(1.dp), content = {
+                    items(weather.list) { item ->
+                        WeatherDetailRow(weather = item)
+                    }
+                })
+        }
     }
 }
 
@@ -188,6 +209,59 @@ fun SunriseSunsetRow(weather: WeatherItem) {
                 contentDescription = "sunset icon",
                 modifier = Modifier.size(25.dp)
             )
+        }
+    }
+}
+
+@Composable
+fun WeatherDetailRow(weather: WeatherItem) {
+    val imageUrl = "https://openweathermap.org/img/wn/${weather.weather[0].icon}.png"
+
+    Surface(
+        Modifier
+            .padding(3.dp)
+            .fillMaxWidth(),
+        shape = CircleShape.copy(topEnd = CornerSize(6.dp)),
+        color = Color.White
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = formatDate(weather.dt).split(",")[0],
+                modifier = Modifier.padding(start = 6.dp)
+            )
+
+            WeatherStateImage(imageUrl = imageUrl)
+
+            Surface(modifier = Modifier.padding(0.dp),
+            shape = CircleShape,
+            color = Color(0xFFFFC400)) {
+                Text(
+                    text = weather.weather[0].main,
+                    modifier = Modifier
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.caption
+                )
+            }
+
+            Text(text = buildAnnotatedString {
+                withStyle(style = SpanStyle(
+                    color = Color.Blue.copy(alpha = 0.7f),
+                    fontWeight = FontWeight.SemiBold
+                )) {
+                    append("${formatDecimals(weather.temp.max)}°")
+                }
+                withStyle(style = SpanStyle(
+                    color = Color.LightGray
+                )) {
+                    append("${formatDecimals(weather.temp.min)}°")
+                }
+            })
         }
     }
 }
