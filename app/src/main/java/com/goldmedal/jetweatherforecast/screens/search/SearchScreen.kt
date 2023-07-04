@@ -25,7 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.goldmedal.jetweatherforecast.navigation.WeatherScreens
-import com.goldmedal.jetweatherforecast.screens.main.WeatherAppBar
+import com.goldmedal.jetweatherforecast.widgets.WeatherAppBar
 
 @Composable
 fun SearchScreen(navController: NavController) {

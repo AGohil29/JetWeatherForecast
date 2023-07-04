@@ -22,10 +22,7 @@ import com.goldmedal.jetweatherforecast.model.Weather
 import com.goldmedal.jetweatherforecast.navigation.WeatherScreens
 import com.goldmedal.jetweatherforecast.utils.formatDate
 import com.goldmedal.jetweatherforecast.utils.formatDecimals
-import com.goldmedal.jetweatherforecast.widgets.HumidityWindPressureRow
-import com.goldmedal.jetweatherforecast.widgets.SunriseSunsetRow
-import com.goldmedal.jetweatherforecast.widgets.WeatherDetailRow
-import com.goldmedal.jetweatherforecast.widgets.WeatherStateImage
+import com.goldmedal.jetweatherforecast.widgets.*
 
 @Composable
 fun MainScreen(
