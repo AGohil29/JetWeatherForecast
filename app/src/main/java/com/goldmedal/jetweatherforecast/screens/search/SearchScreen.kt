@@ -108,5 +108,4 @@ fun CommonTextField(
             .fillMaxWidth()
             .padding(start = 10.dp, end = 10.dp)
     )
-
 }
