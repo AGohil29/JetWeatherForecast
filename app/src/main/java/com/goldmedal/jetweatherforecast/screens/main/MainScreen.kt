@@ -37,7 +37,14 @@ fun MainScreen(
     }.value
 
     if (weatherData.loading == true) {
-        CircularProgressIndicator()
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator()
+        }
     } else if (weatherData.data != null) {
         MainScaffold(weatherData.data!!, navController)
     }
